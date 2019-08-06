@@ -1,5 +1,5 @@
 /*
-    This file is part of Terranetes (https://github.com/f0o/terranetes)
+    This file is part of Terranetes (https://github.com/terranetes)
     Copyright (C) 2019  Daniel 'f0o' Preussker <f0o@devilcode.org>
 
     This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ locals {
     }
     nginx-terranetes = {
       urls = [
-        "https://raw.githubusercontent.com/f0o/terranetes/master/modules/ingress/nginx.yaml",
+        "https://raw.githubusercontent.com/terranetes/core/master/ingress/nginx.yaml",
       ]
     }
   }
