@@ -16,13 +16,23 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-variable "k8s" {
-  description = "Kubernetes Object - See Kubernetes Module for Documentation"
+output "ignition" {
+  value = "${data.ignition_config.ignition.*}"
 }
 
-locals {
-  k8s       = "${module.k8s.k8s}"
-  masters   = [for i in local.k8s.nodes : i if contains(i.labels, "master") == true]
-  ingresses = [for i in local.k8s.nodes : i if contains(i.labels, "ingress") == true]
-  ignition  = "${module.k8s.ignition}"
+output "pki" {
+  value = "${local.pki}"
+}
+
+output "k8s" {
+  value = "${local.k8s}"
+}
+
+output "admin" {
+  value = {
+    kubeconfig = "${templatefile("${path.module}/kubeconfig.tmpl", map("api", "%API", "user", "admin", "crt", "admin.crt", "key", "admin.key", "ca", "ca.crt"))}"
+    cert       = "${local.pki.users.admin[0]}"
+    key        = "${local.pki.users.admin[1]}"
+    ca         = "${local.pki.ca.cert}"
+  }
 }
